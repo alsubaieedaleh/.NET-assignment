@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CarDealer.Api</name>
+    </assembly>
+    <members>
+        <member name="T:CarDealer.Api.Controllers.AuthController.RegisterRequest">
+            <summary>
+            Registration request with user details
+            </summary>
+            <param name="Email">User's email address (must be unique)</param>
+            <param name="Password">User's password (minimum 8 characters, must contain uppercase, lowercase, digit, and special character)</param>
+            <param name="FullName">User's full name</param>
+            <param name="Role">User's role (Customer or Admin)</param>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.AuthController.RegisterRequest.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Registration request with user details
+            </summary>
+            <param name="Email">User's email address (must be unique)</param>
+            <param name="Password">User's password (minimum 8 characters, must contain uppercase, lowercase, digit, and special character)</param>
+            <param name="FullName">User's full name</param>
+            <param name="Role">User's role (Customer or Admin)</param>
+        </member>
+        <member name="P:CarDealer.Api.Controllers.AuthController.RegisterRequest.Email">
+            <summary>User's email address (must be unique)</summary>
+        </member>
+        <member name="P:CarDealer.Api.Controllers.AuthController.RegisterRequest.Password">
+            <summary>User's password (minimum 8 characters, must contain uppercase, lowercase, digit, and special character)</summary>
+        </member>
+        <member name="P:CarDealer.Api.Controllers.AuthController.RegisterRequest.FullName">
+            <summary>User's full name</summary>
+        </member>
+        <member name="P:CarDealer.Api.Controllers.AuthController.RegisterRequest.Role">
+            <summary>User's role (Customer or Admin)</summary>
+        </member>
+        <member name="T:CarDealer.Api.Controllers.AuthController.SendOtpResponse">
+            <summary>
+            OTP response with ID and code
+            </summary>
+            <param name="OtpId">OTP ID for verification</param>
+            <param name="Code">6-digit OTP code</param>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.AuthController.SendOtpResponse.#ctor(System.Int32,System.String)">
+            <summary>
+            OTP response with ID and code
+            </summary>
+            <param name="OtpId">OTP ID for verification</param>
+            <param name="Code">6-digit OTP code</param>
+        </member>
+        <member name="P:CarDealer.Api.Controllers.AuthController.SendOtpResponse.OtpId">
+            <summary>OTP ID for verification</summary>
+        </member>
+        <member name="P:CarDealer.Api.Controllers.AuthController.SendOtpResponse.Code">
+            <summary>6-digit OTP code</summary>
+        </member>
+        <member name="T:CarDealer.Api.Controllers.AuthController.VerifyOtpRequest">
+            <summary>
+            OTP verification request
+            </summary>
+            <param name="OtpId">OTP ID from previous response</param>
+            <param name="Code">6-digit OTP code</param>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.AuthController.VerifyOtpRequest.#ctor(System.Int32,System.String)">
+            <summary>
+            OTP verification request
+            </summary>
+            <param name="OtpId">OTP ID from previous response</param>
+            <param name="Code">6-digit OTP code</param>
+        </member>
+        <member name="P:CarDealer.Api.Controllers.AuthController.VerifyOtpRequest.OtpId">
+            <summary>OTP ID from previous response</summary>
+        </member>
+        <member name="P:CarDealer.Api.Controllers.AuthController.VerifyOtpRequest.Code">
+            <summary>6-digit OTP code</summary>
+        </member>
+        <member name="T:CarDealer.Api.Controllers.AuthController.LoginRequest">
+            <summary>
+            Login request with credentials
+            </summary>
+            <param name="Email">User's email address</param>
+            <param name="Password">User's password</param>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.AuthController.LoginRequest.#ctor(System.String,System.String)">
+            <summary>
+            Login request with credentials
+            </summary>
+            <param name="Email">User's email address</param>
+            <param name="Password">User's password</param>
+        </member>
+        <member name="P:CarDealer.Api.Controllers.AuthController.LoginRequest.Email">
+            <summary>User's email address</summary>
+        </member>
+        <member name="P:CarDealer.Api.Controllers.AuthController.LoginRequest.Password">
+            <summary>User's password</summary>
+        </member>
+        <member name="T:CarDealer.Api.Controllers.AuthController.TokenResponse">
+            <summary>
+            JWT token response
+            </summary>
+            <param name="Token">JWT Bearer token for API authentication</param>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.AuthController.TokenResponse.#ctor(System.String)">
+            <summary>
+            JWT token response
+            </summary>
+            <param name="Token">JWT Bearer token for API authentication</param>
+        </member>
+        <member name="P:CarDealer.Api.Controllers.AuthController.TokenResponse.Token">
+            <summary>JWT Bearer token for API authentication</summary>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.AuthController.RegisterSendOtp(CarDealer.Api.Controllers.AuthController.RegisterRequest)">
+            <summary>
+            Send OTP for user registration
+            </summary>
+            <param name="request">Registration details including email, password, full name, and role</param>
+            <returns>OTP ID and code for verification</returns>
+            <response code="200">OTP sent successfully</response>
+            <response code="400">Invalid request data or password doesn't meet requirements</response>
+            <response code="409">Email already exists</response>
+            <remarks>
+            Password requirements:
+            - Minimum 8 characters
+            - At least one uppercase letter (A-Z)
+            - At least one lowercase letter (a-z)
+            - At least one digit (0-9)
+            - At least one special character (!@#$%^&amp;*)
+            
+            Example valid password: MySecure123!
+            </remarks>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.AuthController.RegisterConfirm(CarDealer.Api.Controllers.AuthController.VerifyOtpRequest)">
+            <summary>
+            Verify OTP and complete user registration
+            </summary>
+            <param name="request">OTP ID and code for verification</param>
+            <returns>JWT token for authenticated access</returns>
+            <response code="200">Registration successful, returns JWT token</response>
+            <response code="400">Invalid OTP, request data, or password validation failed</response>
+            <response code="404">OTP not found or expired</response>
+            <response code="409">User already exists</response>
+            <remarks>
+            This endpoint completes the registration process by verifying the OTP code.
+            If password validation fails, you'll receive detailed error messages about password requirements.
+            </remarks>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.AuthController.LoginSendOtp(CarDealer.Api.Controllers.AuthController.LoginRequest)">
+            <summary>
+            Send OTP for user login
+            </summary>
+            <param name="request">Login credentials (email and password)</param>
+            <returns>OTP ID and code for verification</returns>
+            <response code="200">OTP sent successfully</response>
+            <response code="401">Invalid email or password</response>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.AuthController.LoginConfirm(CarDealer.Api.Controllers.AuthController.VerifyOtpRequest)">
+            <summary>
+            Verify OTP and complete user login
+            </summary>
+            <param name="request">OTP ID and code for verification</param>
+            <returns>JWT token for authenticated access</returns>
+            <response code="200">Login successful, returns JWT token</response>
+            <response code="400">Invalid OTP or request data</response>
+            <response code="401">Invalid user or OTP</response>
+        </member>
+        <member name="T:CarDealer.Api.Controllers.VehiclesController.VehicleFilter">
+            <summary>
+            Vehicle filter parameters
+            </summary>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.VehiclesController.VehicleFilter.#ctor(System.String,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean})">
+            <summary>
+            Vehicle filter parameters
+            </summary>
+        </member>
+        <member name="T:CarDealer.Api.Controllers.VehiclesController.CreateVehicleRequest">
+            <summary>
+            Create vehicle request
+            </summary>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.VehiclesController.CreateVehicleRequest.#ctor(System.String,System.String,System.Int32,System.Decimal,System.Int32,System.String,System.String)">
+            <summary>
+            Create vehicle request
+            </summary>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.VehiclesController.Browse(CarDealer.Api.Controllers.VehiclesController.VehicleFilter)">
+            <summary>
+            Browse and filter vehicles
+            </summary>
+            <param name="filter">Optional filters for make, model, year range, price range, and availability</param>
+            <returns>List of vehicles matching the filter criteria</returns>
+            <response code="200">Returns list of vehicles</response>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.VehiclesController.Details(System.Int32)">
+            <summary>
+            Get vehicle details by ID
+            </summary>
+            <param name="id">Vehicle ID</param>
+            <returns>Vehicle details</returns>
+            <response code="200">Returns vehicle details</response>
+            <response code="404">Vehicle not found</response>
+        </member>
+        <member name="M:CarDealer.Api.Controllers.VehiclesController.Create(CarDealer.Api.Controllers.VehiclesController.CreateVehicleRequest)">
+            <summary>
+            Create a new vehicle (Admin only)
+            </summary>
+            <param name="request">Vehicle creation details</param>
+            <returns>Created vehicle</returns>
+            <response code="201">Vehicle created successfully</response>
+            <response code="400">Invalid request data</response>
+            <response code="401">Unauthorized - Admin role required</response>
+        </member>
+        <member name="T:CarDealer.Api.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:CarDealer.Api.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CarDealer.Api.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CarDealer.Api.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CarDealer.Api.Migrations.OtpAdjustments">
+            <inheritdoc />
+        </member>
+        <member name="M:CarDealer.Api.Migrations.OtpAdjustments.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CarDealer.Api.Migrations.OtpAdjustments.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CarDealer.Api.Migrations.OtpAdjustments.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
